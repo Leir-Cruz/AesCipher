@@ -28,7 +28,7 @@ class Transformation:
   def mixColumns(state):
     mixedColumns = [[], [], [], []]
     for i in range(4):
-        column = [grid[j][i] for j in range(4)]
+        column = [mixedColumns[j][i] for j in range(4)]
         column = Utils.mix_column(column)
         for i in range(4):
             mixedColumns[i].append(column[i])
