@@ -37,3 +37,5 @@ Run project:
 - https://gist.github.com/bonsaiviking/5571001
 - https://csrc.nist.gov/files/pubs/fips/197/final/docs/fips-197.pdf
 - https://www.youtube.com/watch?v=oPjkfvuqqv4
+- https://kekayan.medium.com/encrypt-files-using-aes-with-openssl-dabb86d5b748
+- https://uomustansiriyah.edu.iq/media/lectures/5/5_2021_06_05!07_10_53_PM.pdf
