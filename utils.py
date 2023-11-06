@@ -34,10 +34,6 @@ class Utils:
     return padMessage
   
 
-  def unpadMessage(message):
-    padding = message[-1]
-    return message[:-padding]
-
   def xorLists(list1, list2):
     newList = [None for i in range(len(list1))]
     for i in range(len(list1)):
