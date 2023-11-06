@@ -59,8 +59,24 @@ class Transformation:
         state[12], state[9], state[6], state[3]
     ]
     
-  def invMixColumns(mixedState):
-    firstMixed = Transformation.mixColumns(mixedState)
-    secondMixed = Transformation.mixColumns(firstMixed)
-    unMixedState = Transformation.mixColumns(secondMixed)
-    return unMixedState
+  def invMixColumn(mixedColumn):
+    temp = copy(mixedColumn)
+    column = [
+    Utils.galoisMulti(temp[0],14) ^ Utils.galoisMulti(temp[3],9) ^ \
+                Utils.galoisMulti(temp[2],13) ^ Utils.galoisMulti(temp[1],11),
+    Utils.galoisMulti(temp[1],14) ^ Utils.galoisMulti(temp[0],9) ^ \
+                Utils.galoisMulti(temp[3],13) ^ Utils.galoisMulti(temp[2],11),
+    Utils.galoisMulti(temp[2],14) ^ Utils.galoisMulti(temp[1],9) ^ \
+                Utils.galoisMulti(temp[0],13) ^ Utils.galoisMulti(temp[3],11),
+    Utils.galoisMulti(temp[3],14) ^ Utils.galoisMulti(temp[2],9) ^ \
+		    Utils.galoisMulti(temp[1],13) ^ Utils.galoisMulti(temp[0],11)
+    ]
+    return column
+
+  def invMixColumns(state):
+    mixedColumns = [None for i in range(len(state))]
+    for i in range(4):
+      column = state[i * 4: i * 4 + 4]
+      mixedColumn = Transformation.invMixColumn(column)
+      mixedColumns[i * 4: i * 4 + 4] = mixedColumn
+    return mixedColumns

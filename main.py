@@ -25,5 +25,8 @@ if __name__ == "__main__":
   print(f"resultado cifra: {encrypted} \n")
 
   hexEncrypted = [hex(byte) for byte in encrypted]
-  print(f"Hexadecimal: {hexEncrypted}")
+  print(f"Hexadecimal: {hexEncrypted} \n")
 
+
+  decrypted = AesCipher.decrypt(encrypted, expandableKeys)
+  print(f"resultado decifra: {decrypted} \n")
