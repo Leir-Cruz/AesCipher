@@ -1,4 +1,5 @@
 from constants import sBox, sBoxInv
+from copy import copy
 from utils import Utils
 
 class Transformation:
@@ -11,28 +12,30 @@ class Transformation:
   def shiftRows(state):
     for i in range(4):
       state[i*4:i*4+4] = Utils.shift(state[i*4:i*4+4],i)
+    return state
 
 
   def mixColumn(column):
+    temp = copy(column)
     mixedColumn = [
-        Utils.galouisMultiplicationX2(column[0]) ^ Utils.galouisMultiplicationX3(
-            column[1]) ^ column[2] ^ column[3],
-        Utils.galouisMultiplicationX2(column[1]) ^ Utils.galouisMultiplicationX3(
-            column[2]) ^ column[3] ^ column[0],
-        Utils.galouisMultiplicationX2(column[2]) ^ Utils.galouisMultiplicationX3(
-            column[3]) ^ column[0] ^ column[1],
-        Utils.galouisMultiplicationX2(column[3]) ^ Utils.galouisMultiplicationX3(
-            column[0]) ^ column[1] ^ column[2],
+    Utils.galoisMulti(temp[0],2) ^ Utils.galoisMulti(temp[3],1) ^ \
+                Utils.galoisMulti(temp[2],1) ^ Utils.galoisMulti(temp[1],3),
+    Utils.galoisMulti(temp[1],2) ^ Utils.galoisMulti(temp[0],1) ^ \
+                Utils.galoisMulti(temp[3],1) ^ Utils.galoisMulti(temp[2],3),
+    Utils.galoisMulti(temp[2],2) ^ Utils.galoisMulti(temp[1],1) ^ \
+                Utils.galoisMulti(temp[0],1) ^ Utils.galoisMulti(temp[3],3),
+    Utils.galoisMulti(temp[3],2) ^ Utils.galoisMulti(temp[2],1) ^ \
+		    Utils.galoisMulti(temp[1],1) ^ Utils.galoisMulti(temp[0],3)
     ]
     return mixedColumn
 
   def mixColumns(state):
-    mixedColumns = [[], [], [], []]
+    mixedColumns = []
     for i in range(4):
-        column = [mixedColumns[j][i] for j in range(4)]
-        column = Utils.mix_column(column)
-        for i in range(4):
-            mixedColumns[i].append(column[i])
+      column = [state[j + i] for j in range(0, 16, 4)]
+      mixedColumn = Transformation.mixColumn(column)
+      for j in range(len(mixedColumn)):
+        mixedColumns.append(mixedColumn[j]) 
     return mixedColumns
 
   def addRoundKey(state, roundKey):

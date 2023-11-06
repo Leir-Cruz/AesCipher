@@ -1,4 +1,6 @@
+from aesCipher import AesCipher
 from keyExpansion import keyExpansion
+from utils import Utils
 
 if __name__ == "__main__":
   print("Começar processo de cifração AES 128 bits\n")
@@ -6,5 +8,22 @@ if __name__ == "__main__":
   print(f"chave usada para encriptar: {key}\n")
 
   expandableKeys = keyExpansion(key)
-  print(f"chave após processo de expansão: {expandableKeys}\n")
+  print(f"chave após processo de expansão: {expandableKeys} de tamanho {len(expandableKeys)}\n")
+
+  print("Realizando leitura de arquivo... \n")
+
+  file = open("test.txt", "rb")
+  message = file.read()
+  
+  print(f"Mensagem: {message}")
+
+  padMessage = Utils.generatePadMessage(message)
+  print(f"mensagem dividida em blocos de 16 bytes: {padMessage}\n")
+
+
+  encrypted = AesCipher.encrypt(padMessage, expandableKeys) 
+  print(f"resultado cifra: {encrypted} \n")
+
+  hexEncrypted = [hex(byte) for byte in encrypted]
+  print(f"Hexadecimal: {hexEncrypted}")
 
