@@ -3,6 +3,9 @@ from constants import mask8bits
 
 class Utils:
 
+  def shift(word, n=1):
+    return word[n:]+ word[0:n]
+
   def galoisMulti(a, b):
     p = 0
     hiBitSet = 0
@@ -30,6 +33,10 @@ class Utils:
         padMessage[i] = message[i]
     return padMessage
   
+
+  def unpadMessage(message):
+    padding = message[-1]
+    return message[:-padding]
 
   def xorLists(list1, list2):
     newList = [None for i in range(len(list1))]
