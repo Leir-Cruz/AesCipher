@@ -9,6 +9,7 @@ class AesCipher:
     cipherStates = []
     for x in range(len(states)):
       state = Transformation.addRoundKey(states[x], Utils.extractRoundKey(expandableKeys, 0))
+      
       for i in range(rounds - 1):
         state = Transformation.substituteBytes(state)
         state = Transformation.shiftRows(state)

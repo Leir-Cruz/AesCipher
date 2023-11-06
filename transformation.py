@@ -10,9 +10,12 @@ class Transformation:
     return state
 
   def shiftRows(state):
-    for i in range(4):
-      state[i*4:i*4+4] = Utils.shift(state[i*4:i*4+4],i)
-    return state
+    return [
+        state[0], state[5], state[10], state[15],
+        state[4], state[9], state[14], state[3],
+        state[8], state[13], state[2], state[7],
+        state[12], state[1], state[6], state[11]
+    ]
 
 
   def mixColumn(column):
@@ -32,12 +35,9 @@ class Transformation:
   def mixColumns(state):
     mixedColumns = [None for i in range(len(state))]
     for i in range(4):
-      column = [state[j + i] for j in range(0, 16, 4)]
+      column = state[i * 4: i * 4 + 4]
       mixedColumn = Transformation.mixColumn(column)
-      h = 0
-      for j in range(0, 16, 4):
-        mixedColumns[j + i] = mixedColumn[h]
-        h += 1
+      mixedColumns[i * 4: i * 4 + 4] = mixedColumn
     return mixedColumns
 
   def addRoundKey(state, roundKey):
@@ -52,9 +52,12 @@ class Transformation:
     return state
 
   def invShiftRows(state):
-    for i in range(4):
-      state[i*4:i*4+4] = Utils.shift(state[i*4:i*4+4],-i)
-    return state
+    return [
+        state[0], state[13], state[10], state[7],
+        state[4], state[1], state[14], state[11],
+        state[8], state[5], state[2], state[15],
+        state[12], state[9], state[6], state[3]
+    ]
     
   def invMixColumns(mixedState):
     firstMixed = Transformation.mixColumns(mixedState)

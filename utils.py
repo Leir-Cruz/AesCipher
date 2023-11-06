@@ -4,7 +4,7 @@ from constants import mask8bits
 class Utils:
 
   def shift(word, n=1):
-    return word[n:]+word[0:n]
+    return word[n:]+ word[0:n]
 
   def galoisMulti(a, b):
     p = 0
