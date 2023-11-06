@@ -30,12 +30,14 @@ class Transformation:
     return mixedColumn
 
   def mixColumns(state):
-    mixedColumns = []
+    mixedColumns = [None for i in range(len(state))]
     for i in range(4):
       column = [state[j + i] for j in range(0, 16, 4)]
       mixedColumn = Transformation.mixColumn(column)
-      for j in range(len(mixedColumn)):
-        mixedColumns.append(mixedColumn[j]) 
+      h = 0
+      for j in range(0, 16, 4):
+        mixedColumns[j + i] = mixedColumn[h]
+        h += 1
     return mixedColumns
 
   def addRoundKey(state, roundKey):
